@@ -180,7 +180,7 @@ async function readMeta(glyphFolder) {
   try {
     const data = await readFile(file);
     meta = JSON.parse(data);
-    console.info(gray(`${meta.glyph} - ${meta.tts}`));
+    console.info(gray(`${meta.glyph} - ${meta.cldr}`));
     return meta;
   } catch (e) {
     console.error(`❌ ${red("ERROR")} ${file}: ${e.message}`);
@@ -218,7 +218,7 @@ async function writeGlyph(glyphFolder, variation, meta) {
   const glyph = createReadStream(glyphFile);
   glyph.metadata = {
     unicode: [meta.glyph],
-    name: meta.tts,
+    name: meta.cldr,
   };
   const stream = await output_stream(family_name, variation);
   stream.write(glyph);
@@ -236,7 +236,7 @@ for (const glyphFolder of glyphFolders) {
   for (const variation of variations) {
     const glyph = await writeGlyph(glyphFolder, variation, meta);
     if (!glyph) continue;
-    glyphMeta[meta.glyph] = meta.tts;
+    glyphMeta[meta.glyph] = meta.cldr;
   }
 }
 
